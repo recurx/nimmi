@@ -24,6 +24,7 @@
   const VIDEOS = [
     { id: '6aab7fe04b9588fb8c474e33', ratio: '9/16' },
     { id: '6aac4fdcef37684c946c6baa', ratio: '9/16' },
+    { id: '6aac7a344b9588fb8c4ffde3', ratio: '16/9' },
   ];
 
   const sky = document.getElementById('sky');
