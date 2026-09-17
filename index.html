@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Happy Birthday, Nimmi</title>
+  <meta name="description" content="A starry night on a farm, made for Nimmi's birthday.">
+  <meta name="theme-color" content="#061a14">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23061a14'/%3E%3Cpath d='M32 10l5.5 15.5L54 27l-13 9.5 5 16.5L32 43l-14 10 5-16.5L10 27l16.5-1.5z' fill='%23f1dc9c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ THE NIGHT ============ -->
+  <section class="sky" id="sky">
+    <canvas id="skyCanvas" class="sky__canvas" aria-hidden="true"></canvas>
+
+    <!-- the cinema screen rises from behind the far hill, beyond the barn -->
+    <div class="cinema" id="cinema" aria-hidden="true">
+      <div class="cinema__pole cinema__pole--l"></div>
+      <div class="cinema__pole cinema__pole--r"></div>
+      <div class="cinema__screen">
+        <div class="cinema__stage" id="cinemaStage"></div>
+        <div class="cinema__leader" id="cinemaLeader"><span id="cinemaCount">3</span></div>
+      </div>
+    </div>
+
+    <svg class="sky__scene" id="scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="3" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glowSoft" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+        <linearGradient id="hillA" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0d241c"/><stop offset="1" stop-color="#081a14"/>
+        </linearGradient>
+        <linearGradient id="hillB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0a1d16"/><stop offset="1" stop-color="#061410"/>
+        </linearGradient>
+        <linearGradient id="hillC" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#071711"/><stop offset="1" stop-color="#04100d"/>
+        </linearGradient>
+        <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#c9d3e0" stop-opacity="0"/>
+          <stop offset=".55" stop-color="#c9d3e0" stop-opacity=".09"/>
+          <stop offset="1" stop-color="#c9d3e0" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="hillD" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#05120c"/><stop offset="1" stop-color="#020b08"/>
+        </linearGradient>
+      </defs>
+
+      <!-- far hills -->
+      <path class="hill" fill="url(#hillA)" d="M0 660 C200 620 350 640 520 650 C700 662 800 610 1000 630 C1200 650 1350 600 1600 640 L1600 1000 L0 1000 Z"/>
+      <path class="crest" d="M0 660 C200 620 350 640 520 650 C700 662 800 610 1000 630 C1200 650 1350 600 1600 640"/>
+      <g class="trees-far" fill="#071813">
+        <circle cx="150" cy="632" r="16"/><circle cx="176" cy="638" r="12"/>
+        <circle cx="880" cy="612" r="14"/><circle cx="904" cy="618" r="18"/><circle cx="930" cy="616" r="11"/>
+        <ellipse cx="1470" cy="600" rx="7" ry="26"/><ellipse cx="1488" cy="606" rx="6" ry="22"/>
+      </g>
+
+      <!-- the farm hill -->
+      <path class="hill" fill="url(#hillB)" d="M0 740 C250 700 420 730 600 720 C780 710 900 680 1100 700 C1300 720 1450 690 1600 720 L1600 1000 L0 1000 Z"/>
+      <path class="crest" id="crestB" d="M0 740 C250 700 420 730 600 720 C780 710 900 680 1100 700 C1300 720 1450 690 1600 720"/>
+
+      <!-- barn and silo -->
+      <g class="barn">
+        <rect x="520" y="666" width="110" height="58" fill="#05100c"/>
+        <polygon points="515,668 528,642 556,626 575,620 594,626 622,642 635,668" fill="#08190f"/>
+        <rect x="562" y="692" width="26" height="32" fill="#06140d"/>
+        <g class="window" fill="#f3c66a" filter="url(#glow)">
+          <rect x="534" y="676" width="11" height="11" rx="1"/>
+          <rect x="606" y="676" width="11" height="11" rx="1"/>
+          <rect x="569" y="642" width="12" height="12" rx="1"/>
+        </g>
+        <rect x="640" y="652" width="26" height="72" fill="#05100c"/>
+        <ellipse cx="653" cy="652" rx="13" ry="8" fill="#06130e"/>
+        <circle cx="736" cy="706" r="20" fill="#05110c"/><rect x="734" y="714" width="4" height="10" fill="#07170f"/>
+        <circle cx="486" cy="716" r="14" fill="#05110c"/><rect x="484" y="722" width="3" height="8" fill="#07170f"/>
+      </g>
+
+      <!-- the firecracker launcher, by the barn -->
+      <g class="launcher" id="launcher" transform="translate(210 -6)">
+        <circle class="launcher__hit" cx="478" cy="708" r="26" fill="transparent"/>
+        <circle class="launcher__ring" cx="478" cy="708" r="12" fill="none" stroke="#ffd98a" stroke-width="1"/>
+        <rect x="464" y="713" width="28" height="12" rx="1.5" fill="#2a1c10"/>
+        <line x1="464" y1="719" x2="492" y2="719" stroke="#3a2a18" stroke-width="1"/>
+        <rect x="473" y="694" width="10" height="20" rx="2" fill="#b3384f"/>
+        <polygon points="472,695 478,684 484,695" fill="#d9c27a"/>
+        <line x1="478" y1="714" x2="478" y2="726" stroke="#8a6b3a" stroke-width="1.6"/>
+        <path d="M482 700 q8 -4 10 -12" fill="none" stroke="#c9a04a" stroke-width="1" stroke-opacity=".8"/>
+        <circle class="launcher__fuse" cx="492" cy="688" r="2" fill="#ffb347" filter="url(#glow)"/>
+      </g>
+
+      <!-- windmill -->
+      <g class="windmill">
+        <polygon points="1142,704 1158,704 1154,640 1146,640" fill="#3a2414"/>
+        <g class="blades" stroke="#4a301b" stroke-width="3" stroke-linecap="round">
+          <line x1="1150" y1="638" x2="1150" y2="606"/><line x1="1150" y1="638" x2="1182" y2="638"/>
+          <line x1="1150" y1="638" x2="1150" y2="670"/><line x1="1150" y1="638" x2="1118" y2="638"/>
+        </g>
+        <circle cx="1150" cy="638" r="3" fill="#5a3b22"/>
+      </g>
+      <g id="fenceB" class="fence"></g>
+
+      <rect class="mist" x="0" y="690" width="1600" height="120" fill="url(#mist)"/>
+      <!-- the hay hill -->
+      <path class="hill" fill="url(#hillC)" d="M0 820 C200 790 380 830 560 810 C740 790 880 770 1040 790 C1200 810 1400 780 1600 800 L1600 1000 L0 1000 Z"/>
+      <path class="crest" id="crestC" d="M0 820 C200 790 380 830 560 810 C740 790 880 770 1040 790 C1200 810 1400 780 1600 800"/>
+      <g class="hay" fill="#071712">
+        <path d="M188 808 Q230 760 272 808 Z"/><path d="M300 814 Q334 778 368 814 Z"/>
+        <path d="M1356 796 Q1400 748 1444 796 Z"/>
+      </g>
+      <g id="flowersC" class="flowers flowers--far"></g>
+      <g id="fenceC" class="fence"></g>
+
+    </svg>
+
+    <svg class="sky__scene sky__scene--front" id="front" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="beam" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0" stop-color="#fff4c8" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#fff4c8" stop-opacity=".02"/>
+        </linearGradient>
+        <linearGradient id="mist2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#c9d3e0" stop-opacity="0"/>
+          <stop offset=".55" stop-color="#c9d3e0" stop-opacity=".09"/>
+          <stop offset="1" stop-color="#c9d3e0" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="hillD2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#05120c"/><stop offset="1" stop-color="#020b08"/>
+        </linearGradient>
+      </defs>
+      <polygon class="beam" id="beam" points="0,0 0,0 0,0" fill="url(#beam)"/>
+      <rect class="mist" x="0" y="780" width="1600" height="110" fill="url(#mist2)" opacity=".7"/>
+      <!-- the near hill, where they sit -->
+      <path class="hill" fill="url(#hillD2)" d="M0 900 C250 850 500 880 700 860 C850 845 950 850 1100 870 C1300 895 1450 870 1600 890 L1600 1000 L0 1000 Z"/>
+      <path class="crest" id="crestD" d="M0 900 C250 850 500 880 700 860 C850 845 950 850 1100 870 C1300 895 1450 870 1600 890"/>
+
+      <!-- Nimmi, from behind, looking up -->
+      <g class="nimmi" id="nimmi">
+        <path class="dress" d="M722 868 Q740 816 795 812 Q852 816 868 868 Z" fill="#182a55"/>
+        <path d="M722 868 Q740 816 795 812 Q852 816 868 868" fill="none" stroke="#9fb8ea" stroke-opacity=".35" stroke-width="1.5"/>
+        <path class="arm" d="M818 774 Q846 804 862 852" fill="none" stroke="#1c3160" stroke-width="13" stroke-linecap="round"/>
+        <path class="arm" d="M772 774 Q746 802 748 830" fill="none" stroke="#1c3160" stroke-width="13" stroke-linecap="round"/>
+        <path class="torso" d="M766 826 Q762 782 772 760 Q795 750 818 760 Q828 782 824 826 Z" fill="#213a70"/>
+        <path d="M772 760 Q795 750 818 760 Q828 782 824 826" fill="none" stroke="#a9c2f0" stroke-opacity=".4" stroke-width="1.6"/>
+        <circle cx="795" cy="742" r="22" fill="#0c1d16"/>
+        <g class="hair" id="hair">
+          <path d="M772 740 Q762 698 795 696 Q828 698 820 742 Q834 776 826 804 Q810 812 795 808 Q780 812 766 802 Q756 776 772 740 Z" fill="#040c09"/>
+          <path d="M776 720 Q792 704 812 716" fill="none" stroke="#2c5646" stroke-opacity=".5" stroke-width="1.6"/>
+          <path d="M818 710 Q832 734 830 770 Q832 792 826 804" fill="none" stroke="#b9c9dd" stroke-opacity=".45" stroke-width="2.2"/>
+          <path d="M806 748 Q820 776 812 800" fill="none" stroke="#2c5646" stroke-opacity=".5" stroke-width="1.4"/>
+          <path d="M784 752 Q774 780 780 802" fill="none" stroke="#2c5646" stroke-opacity=".45" stroke-width="1.4"/>
+        </g>
+      </g>
+
+      <!-- the black cat, also looking up -->
+      <!-- the cat, up and walking (hidden while she sits) -->
+      <g class="catwalk" id="catwalk" transform="translate(905 866) scale(1.8 1.8)">
+        <path class="catwalk__tail" d="M-18 -20 Q-32 -24 -34 -40" fill="none" stroke="#8a4a1e" stroke-width="4" stroke-linecap="round"/>
+        <line class="leg leg--a" x1="-11" y1="-14" x2="-13" y2="0" stroke="#8a4a1e" stroke-width="3.6" stroke-linecap="round"/>
+        <line class="leg leg--b" x1="9" y1="-14" x2="7" y2="0" stroke="#8a4a1e" stroke-width="3.6" stroke-linecap="round"/>
+        <ellipse cx="0" cy="-17" rx="20" ry="9" fill="#8a4a1e"/>
+        <line class="leg leg--b" x1="-7" y1="-14" x2="-5" y2="0" stroke="#8a4a1e" stroke-width="3.6" stroke-linecap="round"/>
+        <line class="leg leg--a" x1="13" y1="-14" x2="15" y2="0" stroke="#8a4a1e" stroke-width="3.6" stroke-linecap="round"/>
+        <g class="catwalk__head">
+          <circle cx="21" cy="-25" r="9" fill="#8a4a1e"/>
+          <polygon points="14,-31 12,-42 20,-33" fill="#8a4a1e"/>
+          <polygon points="25,-32 29,-42 20,-33" fill="#8a4a1e"/>
+        </g>
+        <path d="M-16 -25 Q0 -29 16 -27" fill="none" stroke="#ffd9a8" stroke-opacity=".4" stroke-width="1.4"/>
+        <g class="carry" id="carry">
+          <circle cx="32" cy="-22" r="6.5" fill="#1e222b" stroke="#8a93a8" stroke-width="1.2"/>
+          <circle cx="32" cy="-22" r="1.6" fill="#8a93a8"/>
+          <line x1="32" y1="-28" x2="32" y2="-16" stroke="#8a93a8" stroke-width=".9"/>
+          <line x1="26" y1="-22" x2="38" y2="-22" stroke="#8a93a8" stroke-width=".9"/>
+        </g>
+      </g>
+
+      <!-- the gift box beside the cat -->
+      <g class="gift" id="gift">
+        <rect class="gift__hit" x="952" y="826" width="80" height="44" fill="transparent"/>
+        <circle class="hint-ring" cx="992" cy="855" r="10" fill="none" stroke="#ffd98a" stroke-width="1"/>
+        <!-- floor and back wall -->
+        <rect class="gift__base" x="960" y="864" width="64" height="3" rx="1" fill="#3a1a24"/>
+        <rect class="gift__wall gift__wall--back" x="960" y="847" width="64" height="18" fill="#47212e"/>
+        <!-- the two reel stacks (left: to watch, right: watched), drawn by cinema.js -->
+        <g class="gift__stack" id="stackA"></g>
+        <g class="gift__stack" id="stackB"></g>
+        <!-- side walls, then the front wall with its ribbon -->
+        <rect class="gift__wall gift__wall--left" x="960" y="847" width="4" height="20" fill="#4d2432"/>
+        <rect class="gift__wall gift__wall--right" x="1020" y="847" width="4" height="20" fill="#4d2432"/>
+        <g class="gift__wall gift__wall--front">
+          <rect x="960" y="847" width="64" height="20" rx="1.5" fill="#5a2a3a"/>
+          <rect x="990" y="847" width="4" height="20" fill="#d9c27a" opacity=".85"/>
+        </g>
+        <path class="gift__rim" d="M960 848 h64" stroke="#9fb8ea" stroke-opacity=".25" stroke-width="1"/>
+        <!-- the lid -->
+        <g class="gift__lid" id="giftLid">
+          <rect x="957" y="841" width="70" height="7" rx="1.5" fill="#733648"/>
+          <rect x="990" y="841" width="4" height="7" fill="#d9c27a" opacity=".85"/>
+          <ellipse cx="987" cy="839" rx="4.5" ry="2.6" fill="none" stroke="#d9c27a" stroke-width="1.4"/>
+          <ellipse cx="997" cy="839" rx="4.5" ry="2.6" fill="none" stroke="#d9c27a" stroke-width="1.4"/>
+        </g>
+      </g>
+
+      <g class="cat" id="cat">
+        <path class="tail" d="M926 860 Q962 856 960 826 Q958 806 942 812" fill="none" stroke="#8a4a1e" stroke-width="7" stroke-linecap="round"/>
+        <path d="M880 866 Q878 820 905 816 Q932 820 930 866 Z" fill="#8a4a1e"/>
+        <circle cx="905" cy="808" r="14" fill="#8a4a1e"/>
+        <polygon points="893,798 889,780 903,793" fill="#8a4a1e"/>
+        <polygon points="917,798 921,780 907,793" fill="#8a4a1e"/>
+        <path d="M918 800 Q932 828 930 864" fill="none" stroke="#ffd9a8" stroke-opacity=".45" stroke-width="1.5"/>
+        <path d="M919 797 L921 783" fill="none" stroke="#ffd9a8" stroke-opacity=".4" stroke-width="1"/>
+      </g>
+
+
+      <!-- the film projector -->
+      <g class="projector" id="projector" transform="translate(704 863) scale(1.4) translate(-704 -863)">
+        <circle class="projector__hit" cx="704" cy="846" r="26" fill="transparent"/>
+        <circle class="hint-ring" cx="704" cy="846" r="10" fill="none" stroke="#ffd98a" stroke-width="1"/>
+        <line x1="694" y1="862" x2="690" y2="876" stroke="#1c2027" stroke-width="2"/>
+        <line x1="714" y1="862" x2="718" y2="876" stroke="#1c2027" stroke-width="2"/>
+        <rect x="686" y="844" width="36" height="19" rx="3" fill="#2b303b"/>
+        <rect x="686" y="844" width="36" height="4" rx="2" fill="#3b414f"/>
+        <rect x="716" y="850" width="8" height="8" rx="1" fill="#1c2027"/>
+        <g class="reel reel--a">
+          <circle cx="697" cy="836" r="8" fill="#1e222b" stroke="#4a5162" stroke-width="1.2"/>
+          <circle cx="697" cy="836" r="2" fill="#4a5162"/>
+          <line x1="697" y1="829" x2="697" y2="843" stroke="#4a5162" stroke-width="1"/>
+          <line x1="690" y1="836" x2="704" y2="836" stroke="#4a5162" stroke-width="1"/>
+        </g>
+        <g class="reel reel--b">
+          <circle cx="712" cy="832" r="9.5" fill="#1e222b" stroke="#4a5162" stroke-width="1.2"/>
+          <circle cx="712" cy="832" r="2" fill="#4a5162"/>
+          <line x1="712" y1="823" x2="712" y2="841" stroke="#4a5162" stroke-width="1"/>
+          <line x1="703" y1="832" x2="721" y2="832" stroke="#4a5162" stroke-width="1"/>
+        </g>
+        <circle class="projector__lamp" cx="720" cy="848" r="2.2" fill="#ffe7a8"/>
+      </g>
+      </g>
+
+      <!-- what the cat says when she sits back down -->
+      <g class="meow" id="meow">
+        <text x="912" y="752" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-weight="600" font-size="24" fill="#f6f1e6">Meow!</text>
+        <text x="920" y="772" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-weight="500" font-size="19" fill="#f6f1e6" opacity=".85">meow!</text>
+      </g>
+      <g id="flowersD" class="flowers"></g>
+      <g id="grassD" class="grass"></g>
+    </svg>
+
+    <canvas id="fxCanvas" class="sky__fx" aria-hidden="true"></canvas>
+
+    <header class="top">
+      <a class="wordmark" href="#">Pinjej<span>✦</span></a>
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">♪ sound on</button>
+    </header>
+
+    <h1 class="visually-hidden">Happy birthday, Nimmi</h1>
+    <div class="sky__caption">
+      <p class="sky__hint">Light the firecracker by the barn. Switch on the projector, then open the gift beside the cat.</p>
+    </div>
+  </section>
+
+
+  <footer class="foot">
+    <p>With love, your meow</p>
+  </footer>
+
+  <script src="js/sound.js"></script>
+  <script src="js/scene.js"></script>
+  <!-- Gumlet's player bridge, so the scene knows when a film ends -->
+  <script src="https://cdn.jsdelivr.net/npm/@gumlet/player.js@3.0/dist/main.global.js"></script>
+  <script src="js/cinema.js"></script>
+</body>
+</html>

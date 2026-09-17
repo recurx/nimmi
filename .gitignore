@@ -1,0 +1,9 @@
+# keep the real photo out of the repository
+IMG_0138.tiff
+.DS_Store
+.claude/
+
+# video originals for Gumlet, never part of the site
+*.mp4
+*.mov
+*.MOV
