@@ -19,10 +19,11 @@ clicking the sky makes a wish.
   the gift lid, the countdown beeps and the footsteps are synthesised with the Web Audio API. The "sound on/off" toggle in the corner is remembered in the browser.
 - `js/cinema.js` – the projector, the gift box, the reel stacks and the cat. **Add the video
   messages to the `VIDEOS` list at the top of this file**: one entry per Gumlet video with its id
-  and its aspect ratio ("16/9" or "9/16"). Nothing autoplays. The projector raises a blank screen.
+  and its aspect ratio ("16/9" or "9/16"). The projector raises a blank screen.
   The gift box holds the films as a stack of numbered reels; the first click unfolds the box.
   Click a stack and the cat first carries the reel in the projector to the *other* stack, then
-  threads the top reel of the stack you clicked. So the left stack is "next" and the right stack,
+  threads the top reel of the stack you clicked; the film starts by itself after the countdown
+  (browsers allow that after a click; if one refuses, press play). So the left stack is "next" and the right stack,
   where watched reels pile up, is "previous", forever in both directions. When a film ends
   (Gumlet's player bridge, loaded from a CDN in `index.html`, reports it) or sits unplayed for a
   minute, the screen shows an END card and the cat walks over and nudges the stack with the next reel.

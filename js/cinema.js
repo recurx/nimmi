@@ -6,8 +6,9 @@
      The first click unfolds the box, lid and walls, and shows the stack.
    - Click a stack: the cat first carries whatever is in the projector to
      the *other* stack, then takes the top reel from the stack you clicked
-     and threads it. The screen counts down and the film appears (nothing
-     autoplays; press play on the film). Clicking the left stack again is
+     and threads it. The screen counts down and the film starts by itself
+     (browsers allow this because she has already clicked; if one refuses,
+     the film waits with its play button). Clicking the left stack again is
      "next"; clicking the right stack, where the watched reels pile up, is
      "previous". Nothing is ever lost, so it works forever in both directions.
    - When a film ends (or sits unplayed for a while) the cat walks over and
@@ -162,6 +163,8 @@
     if (!window.playerjs || !window.playerjs.Player) return;
     try {
       const p = new window.playerjs.Player(frame);
+      // start the film once the player is ready; if the browser refuses, the play button stays
+      p.on('ready', () => { if (player === p) { try { p.play(); } catch (e) {} } });
       p.on('play', () => { if (player !== p) return; clearIdle(); stage.classList.remove('is-done'); projector.classList.remove('is-done'); });
       p.on('pause', () => { if (player === p && !nudged) armIdle(); });
       p.on('ended', () => { if (player === p) endOfReel(); });
@@ -228,7 +231,7 @@
     frame.title = 'Video message ' + (current + 1);
     frame.src = `https://play.gumlet.io/embed/${v.id}`;
     frame.setAttribute('referrerpolicy', 'origin');
-    frame.setAttribute('allow', 'accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen; clipboard-write;');
+    frame.setAttribute('allow', 'autoplay; accelerometer; gyroscope; encrypted-media; picture-in-picture; fullscreen; clipboard-write;');
     stage.appendChild(frame);
     stage.classList.add('is-on');
     fitFilm();
