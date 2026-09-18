@@ -246,15 +246,17 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
 .things p { margin: 0; font-size: 16px; max-width: 30ch; color: rgba(239, 233, 220, .85); }
 
 /* ---------- Footer ---------- */
-.foot {
-  border-top: 1px solid var(--line);
-  padding: 30px 24px 36px;
-  text-align: center;
-  font-size: 12px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ivory-soft);
+/* a faint signature in the corner */
+.sky__sign {
+  position: absolute; right: 24px; bottom: 18px; z-index: 3;
+  margin: 0;
+  font-family: var(--serif); font-style: italic; font-size: 17px;
+  color: var(--ivory); opacity: .28;
+  letter-spacing: .02em;
+  pointer-events: none;
+  transition: opacity .3s;
 }
+.sky.is-zoomed .sky__sign { opacity: 0; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
