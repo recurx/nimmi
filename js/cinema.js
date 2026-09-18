@@ -32,6 +32,8 @@
     { id: '6aacab2c490dbfc4f4b8910f', ratio: '239/425' },
     { id: '6aacac954b9588fb8c50f17b', ratio: '239/425' },
     { id: '6aacac95490dbfc4f4b89815', ratio: '239/425' },
+  { id: '6aacba6ea98a2e8c6c0fdeb9', ratio: '239/425' },
+  { id: '6aacba6e4b9588fb8c5154ec', ratio: '16/9' },
   ];
 
   const sky = document.getElementById('sky');
