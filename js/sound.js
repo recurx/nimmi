@@ -130,27 +130,23 @@
       n.connect(lp);
       env(lp, t0, 0.005, 0.07, 0.06, 'exp').connect(master);
     },
-    // the cat: a recorded meow, said twice to match "Meow! meow!"
+    // the cat: one recorded meow (the clip has a silent tail, so it is cut short)
     meow(t0 = now()) {
       if (!meowBuf) return;
-      const one = (t, rate, level) => {
-        const s = ctx.createBufferSource();
-        s.buffer = meowBuf; s.playbackRate.value = rate;
-        const g = ctx.createGain(); g.gain.value = level;
-        s.connect(g).connect(master);
-        s.start(t);
-      };
-      one(t0, 1, MEOW_LEVEL);
-      one(t0 + MEOW_GAP, 1.06, MEOW_LEVEL * 0.85);
+      const s = ctx.createBufferSource();
+      s.buffer = meowBuf;
+      const g = ctx.createGain(); g.gain.value = MEOW_LEVEL;
+      s.connect(g).connect(master);
+      s.start(t0); s.stop(t0 + MEOW_CUT);
     },
-    // a single, questioning meow
+    // a single, questioning meow, a touch higher
     mew(t0 = now()) {
       if (!meowBuf) return;
       const s = ctx.createBufferSource();
       s.buffer = meowBuf; s.playbackRate.value = 1.1;
       const g = ctx.createGain(); g.gain.value = MEOW_LEVEL * 0.9;
       s.connect(g).connect(master);
-      s.start(t0);
+      s.start(t0); s.stop(t0 + MEOW_CUT);
     },
     // the reels rattling in the box
     rattle(t0 = now()) {
@@ -216,7 +212,7 @@
   // ---------- the cat's meow ----------
   const MEOW_SRC = 'assets/meow.mp3';
   const MEOW_LEVEL = 0.5;
-  const MEOW_GAP = 1.05; // seconds between the two meows
+  const MEOW_CUT = 1.4;  // seconds of the clip to play; the rest is silence
 
   // ---------- fireworks and the birthday song: recorded tracks, decoded once ----------
   const FIREWORKS_SRC = 'assets/fireworks.mp3';
