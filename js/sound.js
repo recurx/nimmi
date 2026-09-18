@@ -1,7 +1,8 @@
 /* =========================================================================
-   Sound. The night ambience, the fireworks, the birthday song, the
-   projector and the cat's meow are recorded tracks in assets/; every other
-   effect is synthesised with the Web Audio API.
+   Sound. The night ambience, the fireworks, the birthday song (played by
+   the man on the truck), the projector and the cat's meow are recorded
+   tracks in assets/; every other effect is synthesised with the Web Audio
+   API.
    Everything is quiet and starts only after the first tap or click, as
    browsers require.
    ========================================================================= */
@@ -64,9 +65,9 @@
   // ---------- the effects ----------
   const fx = {
     // the firecracker show: one recorded run of bangs, started by the first
-    // burst, then the birthday song once the bangs have died away. Later
-    // bursts in the same show are ignored. Returns how long the greeting
-    // should stay in the sky from this burst, so it lasts until the song ends.
+    // burst. Later bursts in the same show are ignored. Returns how long the
+    // greeting should stay in the sky from this burst, so the letters fade
+    // together as the last bang dies away.
     burst(t0 = now()) {
       if (t0 < showEnd) return showEnd - t0;
       if (!fireworksBuf) return;
@@ -76,16 +77,67 @@
       f.connect(fg).connect(master);
       f.start(t0);
       showEnd = t0 + fireworksBuf.duration;
-      if (songBuf) {
-        const songAt = t0 + SONG_AFTER;
-        const s = ctx.createBufferSource();
-        s.buffer = songBuf;
-        const sg = ctx.createGain(); sg.gain.value = SONG_LEVEL;
-        s.connect(sg).connect(master);
-        s.start(songAt);
-        showEnd = songAt + songBuf.duration;
-      }
       return showEnd - t0;
+    },
+    // the man at the piano: the recorded birthday song. Returns its length.
+    song(t0 = now()) {
+      if (!songBuf) return;
+      const s = ctx.createBufferSource();
+      s.buffer = songBuf;
+      const g = ctx.createGain(); g.gain.value = SONG_LEVEL;
+      s.connect(g).connect(master);
+      s.start(t0);
+      return songBuf.duration;
+    },
+    // the truck's engine: a low rumble for the length of the drive, its
+    // pitch sliding from f0 to f1 as it slows down or picks up speed
+    engine(t0 = now(), dur = 5, f0 = 70, f1 = 45) {
+      const d = Math.max(dur, 1.2);
+      const o = ctx.createOscillator(); o.type = 'sawtooth';
+      o.frequency.setValueAtTime(f0, t0);
+      o.frequency.exponentialRampToValueAtTime(f1, t0 + d);
+      const wob = ctx.createOscillator(); wob.frequency.value = 9;
+      const wg = ctx.createGain(); wg.gain.value = 3;
+      wob.connect(wg).connect(o.frequency);
+      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 220; lp.Q.value = 1.2;
+      o.connect(lp);
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.linearRampToValueAtTime(ENGINE_LEVEL, t0 + 0.5);
+      g.gain.setValueAtTime(ENGINE_LEVEL, t0 + d - 0.6);
+      g.gain.linearRampToValueAtTime(0.0001, t0 + d + 0.3);
+      lp.connect(g).connect(master);
+      o.start(t0); wob.start(t0); o.stop(t0 + d + 0.4); wob.stop(t0 + d + 0.4);
+      // gravel under the tyres
+      const n = noise(t0, d + 0.3);
+      const nl = ctx.createBiquadFilter(); nl.type = 'lowpass'; nl.frequency.value = 400;
+      n.connect(nl);
+      const ng = ctx.createGain();
+      ng.gain.setValueAtTime(0.0001, t0);
+      ng.gain.linearRampToValueAtTime(ENGINE_LEVEL * 0.5, t0 + 0.5);
+      ng.gain.setValueAtTime(ENGINE_LEVEL * 0.5, t0 + d - 0.6);
+      ng.gain.linearRampToValueAtTime(0.0001, t0 + d + 0.3);
+      nl.connect(ng).connect(master);
+    },
+    // a friendly beep-beep of the horn
+    horn(t0 = now()) {
+      for (const dt of [0, 0.26]) {
+        tone('square', 415, t0 + dt, 0.18, 0.045, 415, 0.01).connect(master);
+        tone('square', 523, t0 + dt, 0.18, 0.035, 523, 0.01).connect(master);
+      }
+    },
+    // the sign popping up (or, reversed, folding down)
+    pop(t0 = now(), down = false) {
+      fx.click(t0);
+      tone('sine', down ? 480 : 220, t0 + 0.02, 0.3, 0.12, down ? 200 : 520, 0.01).connect(master);
+    },
+    // the bulbs coming on, a row at a time
+    lights(t0 = now()) {
+      for (let i = 0; i < 6; i++) {
+        const t = t0 + i * 0.09;
+        fx.click(t);
+        tone('sine', 1200 + i * 220, t, 0.08, 0.05, 1200 + i * 220, 0.005).connect(master);
+      }
     },
     // the projector switch
     click(t0 = now()) {
@@ -219,7 +271,8 @@
   const FIREWORKS_LEVEL = 0.7;
   const SONG_SRC = 'assets/happy-birthday.mp3';
   const SONG_LEVEL = 0.6;
-  const SONG_AFTER = 4.0; // seconds after the first bang, when the crackle has died away
+  const SONG_FALLBACK = 21; // seconds the song lasts, for timing the truck when it cannot play
+  const ENGINE_LEVEL = 0.07;
   function loadTrack(src, done) {
     fetch(src)
       .then(r => r.arrayBuffer())
@@ -227,11 +280,10 @@
       .then(done)
       .catch(() => {});
   }
-  // how long a show lasts from its first burst (used before the burst, to size the show)
-  function showLength() {
-    if (!fireworksBuf) return 0;
-    return songBuf ? SONG_AFTER + songBuf.duration : fireworksBuf.duration;
-  }
+  // how long the greeting stays up from its first burst (used before the burst, to size the show)
+  function showLength() { return fireworksBuf ? fireworksBuf.duration : 0; }
+  // how long the song lasts, so the truck knows how long the man plays
+  function songLength() { return songBuf ? songBuf.duration : SONG_FALLBACK; }
 
   // ---------- night ambience: a recorded track, looped and faded in ----------
   const AMBIENCE_SRC = 'assets/night-ambience.mp3';
@@ -258,10 +310,10 @@
   }
 
   // ---------- public ----------
-  function play(name, delay = 0) {
+  function play(name, delay = 0, ...args) {
     if (!ctx || !enabled || !fx[name]) return;
     resume();
-    return fx[name](now() + delay);
+    return fx[name](now() + delay, ...args);
   }
   function setEnabled(on) {
     enabled = on;
@@ -283,5 +335,5 @@
   const first = () => { boot(); resume(); };
   ['pointerdown', 'keydown', 'touchstart'].forEach(ev => document.addEventListener(ev, first, { once: true, passive: true }));
 
-  window.NimmiSound = { play, startHum, stopHum, get enabled() { return enabled; }, get ambience() { return ambience && ambience.el; }, get fireworks() { return fireworksBuf; }, get song() { return songBuf; }, get projector() { return projectorBuf; }, get meow() { return meowBuf; }, get hum() { return !!hum; }, showLength };
+  window.NimmiSound = { play, startHum, stopHum, get enabled() { return enabled; }, get ambience() { return ambience && ambience.el; }, get fireworks() { return fireworksBuf; }, get song() { return songBuf; }, get projector() { return projectorBuf; }, get meow() { return meowBuf; }, get hum() { return !!hum; }, showLength, songLength };
 })();

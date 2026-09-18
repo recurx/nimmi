@@ -107,6 +107,74 @@
         </g>
         <circle cx="1150" cy="638" r="3" fill="#5a3b22"/>
       </g>
+      <!-- the piano truck: after the fireworks it drives in from the right and
+           pulls up by the launcher (moved along the crest by scene.js) -->
+      <g class="truck" id="truck" transform="translate(1900 720)">
+        <polygon class="truck__beam" points="-84,-28 -210,-8 -210,10 -84,-18" fill="#fff4c8" opacity=".1"/>
+        <!-- the sign, which pops up from behind the bed -->
+        <g class="truck__sign">
+          <rect x="-6" y="-84" width="4" height="60" fill="#2a2430"/>
+          <rect x="62" y="-84" width="4" height="60" fill="#2a2430"/>
+          <rect x="-52" y="-130" width="164" height="52" rx="4" fill="#160f1c" stroke="#3a2a44" stroke-width="1.5"/>
+          <rect x="-46" y="-124" width="152" height="40" rx="2" fill="none" stroke="#f4c96a" stroke-opacity=".3" stroke-width="1"/>
+          <g class="truck__bulbs" id="truckBulbs" fill="#ffd98a"></g>
+          <g class="truck__words" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-weight="600" text-anchor="middle" fill="#ffe08a" filter="url(#glow)">
+            <text x="30" y="-103" font-size="20">Happy b'day</text>
+            <text x="30" y="-85" font-size="22" letter-spacing=".5">Pinjej</text>
+          </g>
+        </g>
+        <!-- the piano, on the bed -->
+        <g class="truck__piano">
+          <rect x="18" y="-64" width="36" height="36" fill="#1a1720" stroke="#2c2733" stroke-width="1"/>
+          <rect x="16" y="-67" width="40" height="4" rx="1" fill="#2c2733"/>
+          <rect x="21" y="-60" width="10" height="8" fill="#f3eee0" opacity=".8"/>
+          <rect x="6" y="-47" width="13" height="4" fill="#efe6d2"/>
+          <rect x="8" y="-47" width="1.4" height="2.4" fill="#1a1720"/><rect x="11" y="-47" width="1.4" height="2.4" fill="#1a1720"/><rect x="15" y="-47" width="1.4" height="2.4" fill="#1a1720"/>
+          <line x1="8" y1="-43" x2="8" y2="-30" stroke="#1a1720" stroke-width="2"/>
+        </g>
+        <!-- the man at the piano -->
+        <g class="truck__man">
+          <rect x="-9" y="-33" width="12" height="3" fill="#3a2a20"/>
+          <path d="M-9 -30 L-8 -54 Q-2 -58 4 -54 L6 -30 Z" fill="#3d6b5e"/>
+          <g class="truck__head">
+            <circle cx="0" cy="-63" r="6" fill="#d9a77a"/>
+            <path d="M-6.5 -64 Q0 -72 6.5 -64 Z" fill="#2b1d15"/>
+            <rect x="2" y="-65.5" width="8" height="2" rx="1" fill="#2b1d15"/>
+          </g>
+          <g class="truck__arm truck__arm--a">
+            <line x1="3" y1="-52" x2="12" y2="-46" stroke="#3d6b5e" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="12.5" cy="-45.5" r="1.8" fill="#d9a77a"/>
+          </g>
+          <g class="truck__arm truck__arm--b">
+            <line x1="2" y1="-49" x2="15" y2="-45" stroke="#356052" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="15.5" cy="-44.5" r="1.8" fill="#d9a77a"/>
+          </g>
+        </g>
+        <!-- the bed and the cab -->
+        <rect x="-24" y="-16" width="106" height="6" fill="#1a1a22"/>
+        <rect x="-22" y="-30" width="102" height="16" rx="2" fill="#6e2f2f"/>
+        <line x1="-22" y1="-29" x2="80" y2="-29" stroke="#9a4848" stroke-width="1"/>
+        <line x1="12" y1="-29" x2="12" y2="-15" stroke="#4e2020" stroke-width="1"/><line x1="46" y1="-29" x2="46" y2="-15" stroke="#4e2020" stroke-width="1"/>
+        <path d="M-82 -12 L-82 -30 Q-82 -34 -78 -34 L-60 -34 L-52 -54 Q-51 -56 -48 -56 L-26 -56 L-24 -12 Z" fill="#7d3636"/>
+        <line x1="-49" y1="-55" x2="-27" y2="-55" stroke="#a34a4a" stroke-width="1"/>
+        <polygon points="-57,-36 -50,-52 -28,-52 -28,-36" fill="#9fb8ea" opacity=".26"/>
+        <line x1="-42" y1="-35" x2="-42" y2="-14" stroke="#5a2424" stroke-width="1"/>
+        <rect x="-86" y="-20" width="6" height="6" rx="1" fill="#3a3a44"/>
+        <rect x="80" y="-20" width="6" height="6" rx="1" fill="#3a3a44"/>
+        <circle class="truck__lamp" cx="-82" cy="-25" r="2.6" fill="#ffe7a8" filter="url(#glow)"/>
+        <circle cx="82" cy="-24" r="1.8" fill="#ff5a5a" opacity=".85"/>
+        <!-- wheels -->
+        <g class="truck__wheel">
+          <circle cx="-58" cy="-9" r="10" fill="#101216" stroke="#2c313c" stroke-width="2"/>
+          <circle cx="-58" cy="-9" r="3.5" fill="#4a5162"/>
+          <line x1="-58" y1="-17" x2="-58" y2="-1" stroke="#3a4050" stroke-width="1.2"/><line x1="-66" y1="-9" x2="-50" y2="-9" stroke="#3a4050" stroke-width="1.2"/>
+        </g>
+        <g class="truck__wheel">
+          <circle cx="52" cy="-9" r="10" fill="#101216" stroke="#2c313c" stroke-width="2"/>
+          <circle cx="52" cy="-9" r="3.5" fill="#4a5162"/>
+          <line x1="52" y1="-17" x2="52" y2="-1" stroke="#3a4050" stroke-width="1.2"/><line x1="44" y1="-9" x2="60" y2="-9" stroke="#3a4050" stroke-width="1.2"/>
+        </g>
+      </g>
       <g id="fenceB" class="fence"></g>
 
       <rect class="mist" x="0" y="690" width="1600" height="120" fill="url(#mist)"/>
@@ -265,7 +333,7 @@
 
     <h1 class="visually-hidden">Happy birthday, Nimmi</h1>
     <div class="sky__caption">
-      <p class="sky__hint">Light the firecracker by the barn. Switch on the projector, then open the gift beside the cat.</p>
+      <p class="sky__hint">Light the firecracker by the barn and wait for the truck. Switch on the projector, then open the gift beside the cat.</p>
     </div>
   </section>
 

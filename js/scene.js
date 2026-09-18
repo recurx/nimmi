@@ -5,6 +5,8 @@
    - the SVG scene: hills, barn, windmill, Nimmi and the cat (static markup),
      plus flowers, grass and fences generated here.
    - fxCanvas: fireflies drifting in front of the hills.
+   - the piano truck: after the fireworks it drives in from the right, a lit
+     sign pops up, the man plays the birthday song, and it drives off left.
    ========================================================================= */
 (function () {
   'use strict';
@@ -191,7 +193,7 @@
   // ---------- fireworks that spell the greeting ----------
   const PALETTE = ['#ffd98a', '#ffb3c6', '#c9b8ff', '#9fe3d0', '#ffe9b0', '#f4a6ff', '#a8d8ff'];
   let rockets = [], sparks = [], showUntil = 0;
-  const HOLD = 9.8; // seconds the greeting stays up when there is no song to wait for
+  const HOLD = 6; // seconds the greeting stays up when the sound module cannot say
 
   function greetingPoints() {
     // sample the greeting into points, in one line or two depending on width
@@ -255,9 +257,11 @@
         color: PALETTE[Math.floor(Math.random() * PALETTE.length)], targets: null, done: false,
       });
     }
-    // no second show until the greeting has faded (and the song, if there is one, has ended)
+    // the greeting fades as the last bang dies away; the truck sets off as it
+    // fades, and there is no second show until the truck has gone again
     const hold = (window.NimmiSound && window.NimmiSound.enabled && window.NimmiSound.showLength()) || HOLD;
-    showUntil = now + 1.4 + hold + 2;
+    showUntil = Infinity;
+    setTimeout(parade, (1.4 + hold - 0.8) * 1000);
   }
 
   function burst(rk) {
@@ -347,6 +351,84 @@
     const e = document.createElementNS(NS, name);
     for (const k in attrs) e.setAttribute(k, attrs[k]);
     return e;
+  }
+
+  // ---------- the piano truck ----------
+  // It waits off to the right. After the fireworks it drives in along the
+  // crest of the farm hill and pulls up short of the launcher; the sign pops
+  // up from behind the bed, the bulbs come on, the man plays the birthday
+  // song, and when it ends the sign folds and the truck drives off to the left.
+  const truck = document.getElementById('truck');
+  const TRUCK_STOP = 815, TRUCK_IN = 1900, TRUCK_OUT = -320, AXLE = 55;
+  let truckX = TRUCK_IN, drive = null;
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const snd = (name, delay, ...args) => window.NimmiSound && window.NimmiSound.play(name, delay, ...args);
+  const easeOut = p => 1 - Math.pow(1 - p, 3);
+  const easeIn = p => p * p;
+
+  function buildBulbs() {
+    const g = document.getElementById('truckBulbs');
+    g.innerHTML = '';
+    const x0 = -46, x1 = 106, y0 = -124, y1 = -84;
+    for (let i = 0; i <= 14; i++) {
+      const x = x0 + (x1 - x0) * i / 14;
+      g.appendChild(el('circle', { cx: x.toFixed(1), cy: y0, r: 1.7 }));
+      g.appendChild(el('circle', { cx: x.toFixed(1), cy: y1, r: 1.7 }));
+    }
+    for (const y of [-114, -104, -94]) {
+      g.appendChild(el('circle', { cx: x0, cy: y, r: 1.7 }));
+      g.appendChild(el('circle', { cx: x1, cy: y, r: 1.7 }));
+    }
+  }
+
+  // set the truck down on the crest at x, tilted to the slope under its wheels
+  function placeTruck(x, moving) {
+    const crest = document.getElementById('crestB');
+    const yr = crestY(crest, x + AXLE), yf = crestY(crest, x - AXLE);
+    const ang = Math.atan2(yr - yf, AXLE * 2) * 180 / Math.PI;
+    const bob = moving && !reduceMotion ? Math.sin(t * 40) * 0.5 : 0;
+    truck.setAttribute('transform', `translate(${x.toFixed(1)} ${((yr + yf) / 2 + bob).toFixed(1)}) rotate(${ang.toFixed(2)})`);
+  }
+
+  function driveTo(to, dur, ease) {
+    return new Promise(res => {
+      drive = { from: truckX, to, dur, t: 0, ease, res };
+      truck.classList.add('is-driving');
+    });
+  }
+  function moveTruck(dt) {
+    if (!drive) return;
+    drive.t += dt;
+    const p = Math.min(1, drive.t / drive.dur);
+    truckX = drive.from + (drive.to - drive.from) * drive.ease(p);
+    placeTruck(truckX, p < 1);
+    if (p >= 1) { const d = drive; drive = null; truck.classList.remove('is-driving'); d.res(); }
+  }
+
+  async function parade() {
+    const inDur = reduceMotion ? 0.05 : 5.5, outDur = reduceMotion ? 0.05 : 5;
+    snd('engine', 0, inDur, 76, 42);
+    await driveTo(TRUCK_STOP, inDur, easeOut);
+    snd('horn', 0.3);
+    await wait(1000);
+    truck.classList.add('is-up'); snd('pop');
+    await wait(850);
+    truck.classList.add('is-lit'); snd('lights');
+    await wait(800);
+    const len = snd('song') || (window.NimmiSound ? window.NimmiSound.songLength() : 21);
+    truck.classList.add('is-playing');
+    await wait(len * 1000 + 400);
+    truck.classList.remove('is-playing');
+    await wait(500);
+    truck.classList.remove('is-lit');
+    await wait(450);
+    truck.classList.remove('is-up'); snd('pop', 0, true);
+    await wait(1000);
+    snd('engine', 0, outDur, 42, 80);
+    await driveTo(TRUCK_OUT, outDur, easeIn);
+    truckX = TRUCK_IN;
+    placeTruck(truckX, false);
+    showUntil = 0;
   }
   const PETALS = ['#b98a94', '#8f86b3', '#c9c08a', '#7f9bb0', '#c7cdc0', '#b7809a', '#a8b58c'];
   const CENTERS = ['#d9c37a', '#e1d3a0', '#c9a36b'];
@@ -504,10 +586,13 @@
     drawSky(t, dt);
     drawFlies(t, dt);
     drawFireworks(t, dt);
+    moveTruck(dt);
     requestAnimationFrame(frame);
   }
 
   buildFlora();
+  buildBulbs();
+  placeTruck(truckX, false);
   resize();
   requestAnimationFrame(frame);
 })();

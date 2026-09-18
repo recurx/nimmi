@@ -68,6 +68,39 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
 @keyframes ring { 0% { transform: scale(.4); opacity: .7; } 100% { transform: scale(2.2); opacity: 0; } }
 .launcher:hover .launcher__fuse { animation-duration: .4s; }
 
+/* ---------- The piano truck ---------- */
+/* it drives in after the fireworks; scene.js moves it along the crest */
+.truck__wheel { transform-box: fill-box; transform-origin: center; }
+.truck.is-driving .truck__wheel { animation: spin .55s linear infinite reverse; }
+.truck__beam { opacity: 0; transition: opacity .4s; }
+.truck.is-driving .truck__beam { opacity: 1; }
+/* the sign pops up from behind the bed, and folds back down when the song ends */
+.truck__sign {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: scaleY(0);
+  opacity: 0;
+  transition: transform .45s ease-in, opacity .25s .2s;
+}
+.truck.is-up .truck__sign { transform: none; opacity: 1; transition: transform .75s cubic-bezier(.34, 1.56, .64, 1), opacity .2s; }
+/* the bulbs around the sign chase each other while it is lit */
+.truck__bulbs circle { opacity: .16; }
+.truck.is-lit .truck__bulbs { filter: url(#glow); }
+.truck.is-lit .truck__bulbs circle { animation: bulb 1.2s steps(1) infinite; }
+.truck.is-lit .truck__bulbs circle:nth-child(3n + 2) { animation-delay: -.4s; }
+.truck.is-lit .truck__bulbs circle:nth-child(3n) { animation-delay: -.8s; }
+@keyframes bulb { 0%, 33% { opacity: 1; } 34%, 100% { opacity: .3; } }
+.truck__words { opacity: 0; transition: opacity .3s; }
+.truck.is-lit .truck__words { opacity: 1; animation: lightsOn .9s steps(1) 1; }
+@keyframes lightsOn { 0% { opacity: .25; } 30% { opacity: 1; } 42% { opacity: .35; } 55% { opacity: 1; } }
+/* the man plays: his hands bounce on the keys and his head nods */
+.truck__arm, .truck__head { transform-box: fill-box; transform-origin: 50% 50%; }
+.truck.is-playing .truck__arm--a { animation: keys .26s ease-in-out infinite alternate; }
+.truck.is-playing .truck__arm--b { animation: keys .26s ease-in-out infinite alternate-reverse; }
+.truck.is-playing .truck__head { animation: nod .52s ease-in-out infinite alternate; }
+@keyframes keys { from { transform: translateY(0); } to { transform: translateY(-1.6px); } }
+@keyframes nod { from { transform: rotate(-4deg); } to { transform: rotate(5deg) translateY(.6px); } }
+
 .crest { fill: none; stroke: rgba(150, 215, 180, .14); stroke-width: 1.4; }
 .window { animation: flicker 5s ease-in-out infinite; }
 @keyframes flicker {
@@ -416,4 +449,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
   .cinema__screen, .cinema__screen::after, .hint-ring, .reel, .cinema__leader.is-on,
   .catwalk.is-nudging .catwalk__head, .gift__stack.is-rocking { animation: none; }
   .gift__wall, .gift__lid, .gift__stack { transition: none; }
+  .truck__wheel, .truck__bulbs circle, .truck__words, .truck__arm, .truck__head { animation: none; }
+  .truck.is-lit .truck__bulbs circle { opacity: 1; }
+  .truck__sign, .truck__beam { transition: none; }
 }

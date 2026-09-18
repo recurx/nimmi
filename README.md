@@ -11,10 +11,13 @@ clicking the sky makes a wish.
 - `index.html` – the page. The hills, barn, windmill, Nimmi and the cat are inline SVG.
 - `css/style.css` – the night palette (see `:root`) and the sway animations.
 - `js/scene.js` – the sky (stars, moon, shooting stars), the firecracker show that spells
-  the greeting, the generated flowers, grass and fences, and the fireflies.
-- `js/sound.js` – sound. The night ambience is `assets/night-ambience.mp3` (looped, faded in)
-  and the firecracker show is `assets/fireworks.mp3` followed by `assets/happy-birthday.mp3`
-  (the greeting stays in the sky until the song ends); the projector's motor is `assets/projector.mp3`,
+  the greeting, the piano truck, the generated flowers, grass and fences, and the fireflies.
+  After the fireworks a truck drives in from the right and pulls up by the launcher, a sign
+  lit with bulbs pops up from behind the bed ("Happy b'day Pinjej"), the man at the piano
+  plays the birthday song, and when it ends the sign folds and the truck drives off to the left.
+- `js/sound.js` – sound. The night ambience is `assets/night-ambience.mp3` (looped, faded in);
+  the firecracker show is `assets/fireworks.mp3` and the truck's pianist plays
+  `assets/happy-birthday.mp3`; the projector's motor is `assets/projector.mp3`,
   looped quietly while the lights are down; the cat's meow is `assets/meow.mp3`; the cloth screen,
   the gift lid, the countdown beeps and the footsteps are synthesised with the Web Audio API. The "sound on/off" toggle in the corner is remembered in the browser.
 - `js/cinema.js` – the projector, the gift box, the reel stacks and the cat. **Add the video
