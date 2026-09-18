@@ -36,6 +36,7 @@
     { id: '6aac7a344b9588fb8c4ffde3', ratio: '16/9', label: 'Advait, Supriya aunty\n& Bharatheeyan uncle' },
     { id: '6aacba6e4b9588fb8c5154ec', ratio: '16/9', label: 'Keru uncle' },
     { id: '6aacc42d63818d09ef4a6634', ratio: '9/16', label: 'Devi aunty' },
+    { id: '6aacd50d63818d09ef4afe0a', ratio: '9/16', label: 'Vishwa' },
     { id: '6aacd42e63818d09ef4af5b3', ratio: '16/9', label: 'Suyash' },
     { id: '6aac7adcef37684c946d3c9c', ratio: '9/16', label: 'Sahana & Ganesh' },
     { id: '6aacab2c4b9588fb8c50ea08', ratio: '239/425', label: 'Mukul & Nidhi' },
