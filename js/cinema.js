@@ -27,6 +27,11 @@
     { id: '6aac4fdcef37684c946c6baa', ratio: '9/16' },
     { id: '6aac7a344b9588fb8c4ffde3', ratio: '16/9' },
     { id: '6aac7adcef37684c946d3c9c', ratio: '9/16' },
+    { id: '6aacaa77a98a2e8c6c0f72a5', ratio: '9/16' },
+    { id: '6aacab2c4b9588fb8c50ea08', ratio: '239/425' },
+    { id: '6aacab2c490dbfc4f4b8910f', ratio: '239/425' },
+    { id: '6aacac954b9588fb8c50f17b', ratio: '239/425' },
+    { id: '6aacac95490dbfc4f4b89815', ratio: '239/425' },
   ];
 
   const sky = document.getElementById('sky');
