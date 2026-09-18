@@ -38,6 +38,7 @@
     { id: '6aacc42d63818d09ef4a6634', ratio: '9/16', label: 'Devi aunty' },
     { id: '6aac7adcef37684c946d3c9c', ratio: '9/16', label: 'Sahana & Ganesh' },
     { id: '6aacab2c4b9588fb8c50ea08', ratio: '239/425', label: 'Mukul & Nidhi' },
+    { id: '6aaccf4ca373d0cf89f63bf9', ratio: '52/29', label: 'Akanksha & Atit' },
   ];
 
   const sky = document.getElementById('sky');
