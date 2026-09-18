@@ -199,7 +199,7 @@
     // sample the greeting into points, in one line or two depending on width
     const off = document.createElement('canvas');
     const c = off.getContext('2d');
-    const GREETING = ['Happy birthday', 'Princess Arya!'];
+    const GREETING = ['Happy birthday', 'Nirmala'];
     const twoLines = W < 1100;
     const lines = twoLines ? GREETING : [GREETING.join(' ')];
     const font = f => `italic 600 ${f}px "Cormorant Garamond", Georgia, serif`;
