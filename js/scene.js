@@ -551,8 +551,15 @@
     mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
   });
   sky.addEventListener('pointerleave', () => { mouse.x = -9999; mouse.y = -9999; });
+  // the "?" in the corner opens the hint; any click elsewhere closes it
+  const help = document.getElementById('help');
+  const helpBtn = document.getElementById('helpBtn');
+  function showHelp(on) { help.classList.toggle('is-open', on); helpBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); }
+  helpBtn.addEventListener('click', e => { e.stopPropagation(); showHelp(!help.classList.contains('is-open')); });
+  document.addEventListener('click', e => { if (!help.contains(e.target)) showHelp(false); }, true);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') showHelp(false); });
   sky.addEventListener('click', e => {
-    if (e.target.closest && e.target.closest('a, nav, header')) return;
+    if (e.target.closest && e.target.closest('a, nav, header, .help')) return;
     const r = sky.getBoundingClientRect();
     const y = e.clientY - r.top;
     if (y < sceneToScreen(0, 640)[1]) launchShootingStar(e.clientX - r.left, y);
