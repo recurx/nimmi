@@ -126,6 +126,9 @@
   // ---- small async helpers
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const snd = (name, delay) => { if (window.NimmiSound) window.NimmiSound.play(name, delay); };
+  // the projector's motor runs only while a film is running
+  const humOn = () => { if (window.NimmiSound) window.NimmiSound.startHum(); };
+  const humOff = () => { if (window.NimmiSound) window.NimmiSound.stopHum(); };
   function placeCat() { catwalk.setAttribute('transform', `translate(${catX.toFixed(1)} 866) scale(${facing * CAT_SCALE} ${CAT_SCALE})`); }
   function walkTo(x) {
     return new Promise(resolve => {
@@ -228,14 +231,21 @@
       const p = new window.playerjs.Player(frame);
       // start the film once the player is ready; if the browser refuses, the play button stays
       p.on('ready', () => { if (player === p) { try { p.play(); } catch (e) {} } });
-      p.on('play', () => { if (player !== p) return; clearIdle(); stage.classList.remove('is-done'); projector.classList.remove('is-done'); });
-      p.on('pause', () => { if (player === p && !nudged) armIdle(); });
-      p.on('ended', () => { if (player === p) endOfReel(); });
+      p.on('play', () => {
+        if (player !== p) return;
+        clearIdle(); humOn(); stage.classList.remove('is-done'); projector.classList.remove('is-done');
+        // the player says "play" as soon as it is asked; if the browser then refused
+        // to start the film (no tap yet), the motor should not run over a still picture
+        setTimeout(() => { if (player === p) { try { p.getPaused(v => { if (player === p && v) humOff(); }); } catch (e) {} } }, 1200);
+      });
+      p.on('pause', () => { if (player !== p) return; humOff(); if (!nudged) armIdle(); });
+      p.on('ended', () => { if (player === p) { humOff(); endOfReel(); } });
       player = p;
     } catch (e) { player = null; }
   }
   async function endOfReel() {
     if (nudged || current < 0) return;
+    humOff();
     // the tail of the reel slaps round in the gate and the picture goes dim
     leader.classList.add('is-end', 'is-on');
     count.textContent = 'END';
@@ -296,6 +306,7 @@
       stage.appendChild(pic);
       stage.classList.add('is-on');
       fitFilm();
+      humOn();
       clearTimeout(photoTimer);
       photoTimer = setTimeout(endOfReel, PHOTO_MS);
       return;
@@ -311,12 +322,16 @@
     stage.classList.add('is-on');
     fitFilm();
     attachPlayer(frame);
+    // the motor runs while the film does: it starts on the player's play event
+    // and stops on pause; without the bridge it simply runs while the reel is in
+    if (!player) humOn();
     armIdle();
   }
   function unthread() {
     clearIdle();
     clearTimeout(photoTimer); photoTimer = null;
     player = null;
+    humOff();
     stage.classList.remove('is-on', 'is-done');
     projector.classList.remove('has-reel', 'is-done');
     leader.classList.remove('is-on', 'is-end');
@@ -413,13 +428,12 @@
     cinema.setAttribute('aria-hidden', 'false');
     projector.classList.add('is-on');
     beam.classList.add('is-on');
-    if (window.NimmiSound) window.NimmiSound.startHum();
   }
   function lightsUp() {
     if (!isUp || busy) return;
     isUp = false;
     snd('click'); snd('cloth', 0.1);
-    if (window.NimmiSound) window.NimmiSound.stopHum();
+    humOff();
     cinema.classList.remove('is-up', 'is-live');
     cinema.setAttribute('aria-hidden', 'true');
     projector.classList.remove('is-on');

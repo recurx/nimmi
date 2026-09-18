@@ -18,7 +18,7 @@ clicking the sky makes a wish.
 - `js/sound.js` – sound. The night ambience is `assets/night-ambience.mp3` (looped, faded in);
   the firecracker show is `assets/fireworks.mp3` and the truck's pianist plays
   `assets/happy-birthday.mp3`; the projector's motor is `assets/projector.mp3`,
-  looped quietly while the lights are down; the cat's meow is `assets/meow.mp3`; the cloth screen,
+  looped quietly while a film is actually running (it stops on pause and at the end); the cat's meow is `assets/meow.mp3`; the cloth screen,
   the gift lid, the countdown beeps and the footsteps are synthesised with the Web Audio API. The "sound on/off" toggle in the corner is remembered in the browser.
 - `js/cinema.js` – the projector, the gift box, the stack of reels and the cat. **Add the
   messages to the `VIDEOS` list at the top of this file**, in the order they should sit in the
