@@ -202,7 +202,8 @@
         el(t, 'tspan', { x: cx, y: -REEL_H / 2 - 0.25 }, lines[0]);
         el(t, 'tspan', { x: cx, y: -REEL_H / 2 + 2.1 }, lines[1]);
       }
-      g.addEventListener('click', e => { e.stopPropagation(); pick(i); });
+      // zoomed in, a reel is a choice; zoomed out, the stack is just the gift
+      g.addEventListener('click', e => { e.stopPropagation(); zoomed ? pick(i) : openGift(); });
       reels.push(g);
     });
     layoutStack();
