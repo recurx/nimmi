@@ -109,18 +109,54 @@
   }
 
   // ---- the camera: the whole world zooms in on the stack, and back out
+  // The travel is a CSS transform on the world. Once it has arrived, the two
+  // SVG layers are "snapped": their viewBox is set to exactly the window the
+  // camera is looking at and the transform is dropped, so the reels are drawn
+  // as crisp vectors at screen resolution (Safari on iOS otherwise scales up a
+  // low-resolution bitmap of the scene and everything looks blurred).
+  const scenes = [document.getElementById('scene'), document.getElementById('front')];
+  const FULL_VIEW = '0 0 1600 1000';
+  let zoomTf = '', zoomBox = '', snapped = false, snapTimer = null;
   function zoomIn() {
     const m = mapping();
     const h = REEL_H * VIDEOS.length + 8, w = REEL_W + 8;
     const cx = m.OX + STACK_X * m.S, cy = m.OY + (GROUND + 2 - h / 2) * m.S;
     const k = Math.max(2, Math.min(m.H * 0.82 / (h * m.S), m.W * 0.9 / (w * m.S)));
+    const tx = m.W / 2 - cx, ty = m.H / 2 - cy;
     world.style.transformOrigin = `${cx.toFixed(1)}px ${cy.toFixed(1)}px`;
-    world.style.transform = `translate(${(m.W / 2 - cx).toFixed(1)}px, ${(m.H / 2 - cy).toFixed(1)}px) scale(${k.toFixed(3)})`;
+    zoomTf = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${k.toFixed(3)})`;
+    // the window the camera sees, in scene units
+    const left = ((-tx - cx) / k + cx - m.OX) / m.S, right = ((m.W - tx - cx) / k + cx - m.OX) / m.S;
+    const top = ((-ty - cy) / k + cy - m.OY) / m.S, bottom = ((m.H - ty - cy) / k + cy - m.OY) / m.S;
+    zoomBox = `${left.toFixed(2)} ${top.toFixed(2)} ${(right - left).toFixed(2)} ${(bottom - top).toFixed(2)}`;
     sky.classList.add('is-zoomed');
     zoomed = true;
+    clearTimeout(snapTimer);
+    if (snapped) { snap(); return; }
+    world.style.transform = zoomTf;
+    snapTimer = setTimeout(snap, ZOOM_MS + 80);
+  }
+  function snap() {
+    if (!zoomed) return;
+    world.classList.add('is-still');            // no transition for the swap
+    scenes.forEach(el => el.setAttribute('viewBox', zoomBox));
+    world.style.transform = 'none';
+    sky.classList.add('is-snapped');
+    snapped = true;
+  }
+  function unsnap() {
+    if (!snapped) return;
+    scenes.forEach(el => el.setAttribute('viewBox', FULL_VIEW));
+    world.style.transform = zoomTf;             // back to the transformed view, invisibly
+    sky.classList.remove('is-snapped');
+    void world.offsetWidth;
+    world.classList.remove('is-still');
+    snapped = false;
   }
   function zoomOut() {
     if (!zoomed) return;
+    clearTimeout(snapTimer);
+    unsnap();
     world.style.transform = 'none';
     sky.classList.remove('is-zoomed');
     zoomed = false;

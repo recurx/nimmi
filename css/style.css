@@ -58,6 +58,9 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
 /* the world: every layer of the scene, so the camera can zoom in on the reels */
 .world { position: absolute; inset: 0; z-index: 0; transition: transform 1.15s cubic-bezier(.45, .05, .2, 1); }
 .sky.is-zoomed .world { will-change: transform; }
+.world.is-still { transition: none; will-change: auto; }
+/* while the SVG layers are snapped to the zoomed window, the canvases would be out of step: keep them out of sight */
+.sky.is-snapped .sky__fx, .sky.is-snapped .sky__canvas { visibility: hidden; }
 .sky.is-zoomed .help { opacity: 0; transition: opacity .3s; pointer-events: none; }
 .sky__scene { pointer-events: none; }
 .sky__scene .nimmi, .sky__scene .cat, .sky__scene .launcher { pointer-events: auto; cursor: pointer; }
