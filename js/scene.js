@@ -519,10 +519,10 @@
       for (let x = x0; x <= x1; x += gap) {
         const y = crestY(crest, x);
         const h = id === 'crestB' ? 13 : 16;
-        grp.appendChild(el('line', { x1: x, y1: y + 2, x2: x, y2: y - h, stroke: '#0a2219', 'stroke-width': 2.2, 'stroke-linecap': 'round' }));
+        grp.appendChild(el('line', { x1: x, y1: y + 2, x2: x, y2: y - h, stroke: '#3a2414', 'stroke-width': 2.2, 'stroke-linecap': 'round' }));
         if (prev) {
-          grp.appendChild(el('line', { x1: prev[0], y1: prev[1] - h * 0.75, x2: x, y2: y - h * 0.75, stroke: '#0a2219', 'stroke-width': 1.4 }));
-          grp.appendChild(el('line', { x1: prev[0], y1: prev[1] - h * 0.3, x2: x, y2: y - h * 0.3, stroke: '#0a2219', 'stroke-width': 1.4 }));
+          grp.appendChild(el('line', { x1: prev[0], y1: prev[1] - h * 0.75, x2: x, y2: y - h * 0.75, stroke: '#3a2414', 'stroke-width': 1.4 }));
+          grp.appendChild(el('line', { x1: prev[0], y1: prev[1] - h * 0.3, x2: x, y2: y - h * 0.3, stroke: '#3a2414', 'stroke-width': 1.4 }));
         }
         prev = [x, y];
       }
