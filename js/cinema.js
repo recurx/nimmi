@@ -113,14 +113,18 @@
   // walk so that her head (she always arrives facing right) is over a stack
   const walkToStack = side => walkTo(STACK_X[side] - REACH);
   function standUp() { placeCat(); cat.classList.add('is-away'); catwalk.classList.add('is-out'); }
-  let meowTimer = null;
+  // a word from the cat: the sound, and the caption above her ears
+  let meowTimer = null, captionTimer = null;
+  function say(delay = 0, hold = 4800) {
+    clearTimeout(meowTimer); clearTimeout(captionTimer);
+    snd('meow', delay / 1000);
+    meow.classList.remove('is-on');
+    captionTimer = setTimeout(() => meow.classList.add('is-on'), delay + 30);
+    meowTimer = setTimeout(() => meow.classList.remove('is-on'), delay + hold);
+  }
   function sitDown() {
     catwalk.classList.remove('is-out'); cat.classList.remove('is-away');
-    // a word from the cat, once she is settled
-    clearTimeout(meowTimer);
-    snd('meow', 0.25);
-    setTimeout(() => meow.classList.add('is-on'), 250);
-    meowTimer = setTimeout(() => meow.classList.remove('is-on'), 4800);
+    say(250);                            // once she is settled
   }
 
   // ---- the two stacks of reels, seen edge-on, numbered on the rim
@@ -339,6 +343,8 @@
   }
 
   projector.addEventListener('click', e => { e.stopPropagation(); isUp ? lightsUp() : lightsDown(); });
+  // the sitting cat answers a tap (scene.js also twitches her tail)
+  cat.addEventListener('click', e => { e.stopPropagation(); if (!cat.classList.contains('is-away')) say(0, 2600); });
   gift.addEventListener('click', e => {
     e.stopPropagation();
     const stackEl = e.target.closest && e.target.closest('.gift__stack');
