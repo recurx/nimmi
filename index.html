@@ -69,46 +69,9 @@
       <path class="hill" fill="url(#hillB)" d="M0 740 C250 700 420 730 600 720 C780 710 900 680 1100 700 C1300 720 1450 690 1600 720 L1600 1000 L0 1000 Z"/>
       <path class="crest" id="crestB" d="M0 740 C250 700 420 730 600 720 C780 710 900 680 1100 700 C1300 720 1450 690 1600 720"/>
 
-      <!-- barn and silo -->
-      <g class="barn">
-        <rect x="520" y="666" width="110" height="58" fill="#05100c"/>
-        <polygon points="515,668 528,642 556,626 575,620 594,626 622,642 635,668" fill="#08190f"/>
-        <rect x="562" y="692" width="26" height="32" fill="#06140d"/>
-        <g class="window" fill="#f3c66a" filter="url(#glow)">
-          <rect x="534" y="676" width="11" height="11" rx="1"/>
-          <rect x="606" y="676" width="11" height="11" rx="1"/>
-          <rect x="569" y="642" width="12" height="12" rx="1"/>
-        </g>
-        <rect x="640" y="652" width="26" height="72" fill="#05100c"/>
-        <ellipse cx="653" cy="652" rx="13" ry="8" fill="#06130e"/>
-        <circle cx="736" cy="706" r="20" fill="#05110c"/><rect x="734" y="714" width="4" height="10" fill="#07170f"/>
-        <circle cx="486" cy="716" r="14" fill="#05110c"/><rect x="484" y="722" width="3" height="8" fill="#07170f"/>
-      </g>
-
-      <!-- the firecracker launcher, by the barn -->
-      <g class="launcher" id="launcher" transform="translate(210 -6)">
-        <circle class="launcher__hit" cx="478" cy="708" r="26" fill="transparent"/>
-        <circle class="launcher__ring" cx="478" cy="708" r="12" fill="none" stroke="#ffd98a" stroke-width="1"/>
-        <rect x="464" y="713" width="28" height="12" rx="1.5" fill="#2a1c10"/>
-        <line x1="464" y1="719" x2="492" y2="719" stroke="#3a2a18" stroke-width="1"/>
-        <rect x="473" y="694" width="10" height="20" rx="2" fill="#b3384f"/>
-        <polygon points="472,695 478,684 484,695" fill="#d9c27a"/>
-        <line x1="478" y1="714" x2="478" y2="726" stroke="#8a6b3a" stroke-width="1.6"/>
-        <path d="M482 700 q8 -4 10 -12" fill="none" stroke="#c9a04a" stroke-width="1" stroke-opacity=".8"/>
-        <circle class="launcher__fuse" cx="492" cy="688" r="2" fill="#ffb347" filter="url(#glow)"/>
-      </g>
-
-      <!-- windmill -->
-      <g class="windmill">
-        <polygon points="1142,704 1158,704 1154,640 1146,640" fill="#3a2414"/>
-        <g class="blades" stroke="#4a301b" stroke-width="3" stroke-linecap="round">
-          <line x1="1150" y1="638" x2="1150" y2="606"/><line x1="1150" y1="638" x2="1182" y2="638"/>
-          <line x1="1150" y1="638" x2="1150" y2="670"/><line x1="1150" y1="638" x2="1118" y2="638"/>
-        </g>
-        <circle cx="1150" cy="638" r="3" fill="#5a3b22"/>
-      </g>
       <!-- the piano truck: after the fireworks it drives in from the right and
-           pulls up by the launcher (moved along the crest by scene.js) -->
+           pulls up by the launcher (moved along the crest by scene.js). It is
+           drawn first so it passes behind the barn, the trees and the launcher -->
       <g class="truck" id="truck" transform="translate(1900 720)">
         <polygon class="truck__beam" points="-84,-28 -210,-8 -210,10 -84,-18" fill="#fff4c8" opacity=".1"/>
         <!-- the sign, which pops up from behind the bed -->
@@ -174,6 +137,45 @@
           <circle cx="52" cy="-9" r="3.5" fill="#4a5162"/>
           <line x1="52" y1="-17" x2="52" y2="-1" stroke="#3a4050" stroke-width="1.2"/><line x1="44" y1="-9" x2="60" y2="-9" stroke="#3a4050" stroke-width="1.2"/>
         </g>
+      </g>
+
+      <!-- barn and silo -->
+      <g class="barn">
+        <rect x="520" y="666" width="110" height="58" fill="#05100c"/>
+        <polygon points="515,668 528,642 556,626 575,620 594,626 622,642 635,668" fill="#08190f"/>
+        <rect x="562" y="692" width="26" height="32" fill="#06140d"/>
+        <g class="window" fill="#f3c66a" filter="url(#glow)">
+          <rect x="534" y="676" width="11" height="11" rx="1"/>
+          <rect x="606" y="676" width="11" height="11" rx="1"/>
+          <rect x="569" y="642" width="12" height="12" rx="1"/>
+        </g>
+        <rect x="640" y="652" width="26" height="72" fill="#05100c"/>
+        <ellipse cx="653" cy="652" rx="13" ry="8" fill="#06130e"/>
+        <circle cx="736" cy="706" r="20" fill="#05110c"/><rect x="734" y="714" width="4" height="10" fill="#07170f"/>
+        <circle cx="486" cy="716" r="14" fill="#05110c"/><rect x="484" y="722" width="3" height="8" fill="#07170f"/>
+      </g>
+
+      <!-- the firecracker launcher, by the barn -->
+      <g class="launcher" id="launcher" transform="translate(210 -6)">
+        <circle class="launcher__hit" cx="478" cy="708" r="26" fill="transparent"/>
+        <circle class="launcher__ring" cx="478" cy="708" r="12" fill="none" stroke="#ffd98a" stroke-width="1"/>
+        <rect x="464" y="713" width="28" height="12" rx="1.5" fill="#2a1c10"/>
+        <line x1="464" y1="719" x2="492" y2="719" stroke="#3a2a18" stroke-width="1"/>
+        <rect x="473" y="694" width="10" height="20" rx="2" fill="#b3384f"/>
+        <polygon points="472,695 478,684 484,695" fill="#d9c27a"/>
+        <line x1="478" y1="714" x2="478" y2="726" stroke="#8a6b3a" stroke-width="1.6"/>
+        <path d="M482 700 q8 -4 10 -12" fill="none" stroke="#c9a04a" stroke-width="1" stroke-opacity=".8"/>
+        <circle class="launcher__fuse" cx="492" cy="688" r="2" fill="#ffb347" filter="url(#glow)"/>
+      </g>
+
+      <!-- windmill -->
+      <g class="windmill">
+        <polygon points="1142,704 1158,704 1154,640 1146,640" fill="#3a2414"/>
+        <g class="blades" stroke="#4a301b" stroke-width="3" stroke-linecap="round">
+          <line x1="1150" y1="638" x2="1150" y2="606"/><line x1="1150" y1="638" x2="1182" y2="638"/>
+          <line x1="1150" y1="638" x2="1150" y2="670"/><line x1="1150" y1="638" x2="1118" y2="638"/>
+        </g>
+        <circle cx="1150" cy="638" r="3" fill="#5a3b22"/>
       </g>
       <g id="fenceB" class="fence"></g>
 
