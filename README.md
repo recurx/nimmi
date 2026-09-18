@@ -20,17 +20,18 @@ clicking the sky makes a wish.
   `assets/happy-birthday.mp3`; the projector's motor is `assets/projector.mp3`,
   looped quietly while the lights are down; the cat's meow is `assets/meow.mp3`; the cloth screen,
   the gift lid, the countdown beeps and the footsteps are synthesised with the Web Audio API. The "sound on/off" toggle in the corner is remembered in the browser.
-- `js/cinema.js` – the projector, the gift box, the reel stacks and the cat. **Add the video
-  messages to the `VIDEOS` list at the top of this file**: one entry per Gumlet video with its id
-  and its aspect ratio ("16/9" or "9/16"). A photo message is an entry with `photo` (a file in
-  `assets/`) instead of `id`; it stays on the screen for fifteen seconds. The projector raises a blank screen.
-  The gift box holds the films as a stack of numbered reels; the first click unfolds the box.
-  Click a stack and the cat first carries the reel in the projector to the *other* stack, then
-  threads the top reel of the stack you clicked; the film starts by itself after the countdown
-  (browsers allow that after a click; if one refuses, press play). So the left stack is "next" and the right stack,
-  where watched reels pile up, is "previous", forever in both directions. When a film ends
-  (Gumlet's player bridge, loaded from a CDN in `index.html`, reports it) or sits unplayed for a
-  minute, the screen shows an END card and the cat walks over and nudges the stack with the next reel.
+- `js/cinema.js` – the projector, the gift box, the stack of reels and the cat. **Add the
+  messages to the `VIDEOS` list at the top of this file**, in the order they should sit in the
+  stack (top first): one entry per Gumlet video with its id, its aspect ratio ("16/9" or
+  "9/16") and a `label`, the name written on the reel's paper label (a `\n` in the label
+  starts a second line). A photo message is an entry with `photo` (a file in `assets/`)
+  instead of `id`; it stays on the screen for fifteen seconds.
+  The projector raises a blank screen. Clicking the gift unfolds the box and zooms the
+  camera in on the stack of labelled reels; click a reel and the camera zooms back out, the
+  cat fetches that reel, loads it in the projector, and after a 3-2-1 countdown the message
+  plays. Click the gift again and the cat first brings the reel back to the stack, then the
+  camera zooms in on the full stack again. When a message ends the cat walks over and nudges
+  the stack, asking for the next one.
 
 ## Preview locally
 

@@ -55,6 +55,18 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
   display: block;
 }
 .sky__fx { pointer-events: none; }
+/* the world: every layer of the scene, so the camera can zoom in on the reels */
+.world { position: absolute; inset: 0; z-index: 0; transition: transform 1.15s cubic-bezier(.45, .05, .2, 1); }
+.sky.is-zoomed .world { will-change: transform; }
+.sky__pick {
+  position: absolute; top: 76px; left: 0; right: 0; z-index: 3;
+  margin: 0; text-align: center;
+  font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--ivory-soft);
+  opacity: 0; transition: opacity .4s; pointer-events: none;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .8);
+}
+.sky.is-zoomed .sky__pick { opacity: 1; transition-delay: .7s; }
+.sky.is-zoomed .sky__caption { opacity: 0; transition: opacity .3s; }
 .sky__scene { pointer-events: none; }
 .sky__scene .nimmi, .sky__scene .cat, .sky__scene .launcher { pointer-events: auto; cursor: pointer; }
 .launcher__fuse { animation: fuse 1.4s ease-in-out infinite; }
@@ -311,13 +323,18 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
 .gift.is-unfolded .gift__wall--front { transform: scaleY(-.3); transition-delay: .55s; }
 .gift.is-unfolded .gift__wall--back { transform: scaleY(.22); transition-delay: .55s; }
 .gift.is-unfolded .gift__rim { opacity: 0; }
-.gift.is-empty .hint-ring { animation: none; opacity: 0; }
+.gift.is-unfolded .hint-ring { animation: none; opacity: 0; }
 .gift.is-busy { cursor: default; }
-/* the two stacks of reels, seen edge-on and numbered on the rim */
+/* the stack of reels, seen edge-on, each with a handwritten paper label */
 .gift__stack { opacity: 0; transition: opacity .5s .7s; filter: drop-shadow(0 0 2px rgba(255, 217, 138, .35)); cursor: pointer; }
 .gift.is-unfolded .gift__stack { opacity: 1; }
-.gift__stack.is-bare, .gift.is-busy .gift__stack { cursor: default; }
-.gift__num { font-family: "Helvetica Neue", Arial, sans-serif; pointer-events: none; }
+.gift.is-busy .gift__stack { cursor: default; }
+.gift__reel { transition: transform .55s cubic-bezier(.4, .7, .3, 1), opacity .25s; }
+.gift__reel.is-out { opacity: 0; pointer-events: none; }
+.gift__label { font-family: "Reenie Beanie", "Bradley Hand", cursive; pointer-events: none; }
+.gift__paper { transition: fill .2s; }
+.sky.is-zoomed .gift__reel:hover .gift__paper { fill: #fff8e4; }
+.sky.is-zoomed .gift__reel:hover .gift__can { stroke: #c9d2e6; }
 /* the cat asking for the next reel: she nudges the stack and it rattles */
 .catwalk__head { transform-box: fill-box; transform-origin: 40% 100%; }
 .catwalk.is-nudging .catwalk__head { animation: nudge .45s ease-in-out 3; }
@@ -451,7 +468,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
   .cinema { transition: none; }
   .cinema__screen, .cinema__screen::after, .hint-ring, .reel, .cinema__leader.is-on, .film--photo,
   .catwalk.is-nudging .catwalk__head, .gift__stack.is-rocking { animation: none; }
-  .gift__wall, .gift__lid, .gift__stack { transition: none; }
+  .gift__wall, .gift__lid, .gift__stack, .gift__reel, .world { transition: none; }
   .truck__wheel, .truck__bulbs circle, .truck__words, .truck__arm, .truck__head { animation: none; }
   .truck.is-lit .truck__bulbs circle { opacity: 1; }
   .truck__sign, .truck__beam { transition: none; }
