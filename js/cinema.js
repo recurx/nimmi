@@ -34,6 +34,7 @@
     { id: '6aacac95490dbfc4f4b89815', ratio: '239/425' },
   { id: '6aacba6ea98a2e8c6c0fdeb9', ratio: '239/425' },
   { id: '6aacba6e4b9588fb8c5154ec', ratio: '16/9' },
+  { photo: 'assets/photo-1.jpg', ratio: '3/4' },
   ];
 
   const sky = document.getElementById('sky');
@@ -62,7 +63,8 @@
   let isUp = false, current = -1, busy = false, catX = SEAT, facing = 1;
   let stacks = [[], []];                           // reel numbers (0-based), last element on top
   let held = -1;                                   // the reel out of the box (carried or in the projector)
-  let player = null, idleTimer = null, nudged = false, waiting = false;
+  let player = null, idleTimer = null, nudged = false, waiting = false, photoTimer = null;
+  const PHOTO_MS = 15000; // how long a photo stays on the screen
 
   // ---- geometry: same mapping as the SVG scene (viewBox 1600x1000, xMidYMax slice)
   function mapping() {
@@ -236,6 +238,21 @@
     current = index;
     const v = VIDEOS[current];
     stage.innerHTML = '';
+    nudged = false;
+    if (v.photo) {
+      // a photo message: a still on the screen for a while, then the end of the reel
+      const pic = document.createElement('img');
+      pic.className = 'film film--photo';
+      pic.dataset.ratio = v.ratio;
+      pic.alt = 'Photo message ' + (current + 1);
+      pic.src = v.photo;
+      stage.appendChild(pic);
+      stage.classList.add('is-on');
+      fitFilm();
+      clearTimeout(photoTimer);
+      photoTimer = setTimeout(endOfReel, PHOTO_MS);
+      return;
+    }
     const frame = document.createElement('iframe');
     frame.className = 'film';
     frame.dataset.ratio = v.ratio;
@@ -246,12 +263,12 @@
     stage.appendChild(frame);
     stage.classList.add('is-on');
     fitFilm();
-    nudged = false;
     attachPlayer(frame);
     armIdle();
   }
   function unthread() {
     clearIdle();
+    clearTimeout(photoTimer); photoTimer = null;
     player = null;
     stage.classList.remove('is-on', 'is-done');
     projector.classList.remove('has-reel', 'is-done');

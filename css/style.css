@@ -407,12 +407,15 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
   z-index: 2;
 }
 .cinema__stage.is-on { display: flex; }
-.cinema__stage iframe {
+.cinema__stage .film {
   border: 0;
   background: #000;
   /* the projector's light spilling onto the cloth around the picture */
   box-shadow: 0 0 0 1px rgba(255, 255, 255, .06), 0 0 70px 26px rgba(255, 240, 210, .13);
 }
+/* a photo message: a still that drifts very slowly, like a slide in a warm projector */
+.cinema__stage .film--photo { object-fit: cover; display: block; animation: drift 16s ease-in-out forwards; }
+@keyframes drift { from { transform: scale(1); } to { transform: scale(1.05) translateY(-1%); } }
 .cinema__leader {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
@@ -446,7 +449,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cinema { transition: none; }
-  .cinema__screen, .cinema__screen::after, .hint-ring, .reel, .cinema__leader.is-on,
+  .cinema__screen, .cinema__screen::after, .hint-ring, .reel, .cinema__leader.is-on, .film--photo,
   .catwalk.is-nudging .catwalk__head, .gift__stack.is-rocking { animation: none; }
   .gift__wall, .gift__lid, .gift__stack { transition: none; }
   .truck__wheel, .truck__bulbs circle, .truck__words, .truck__arm, .truck__head { animation: none; }

@@ -22,7 +22,8 @@ clicking the sky makes a wish.
   the gift lid, the countdown beeps and the footsteps are synthesised with the Web Audio API. The "sound on/off" toggle in the corner is remembered in the browser.
 - `js/cinema.js` – the projector, the gift box, the reel stacks and the cat. **Add the video
   messages to the `VIDEOS` list at the top of this file**: one entry per Gumlet video with its id
-  and its aspect ratio ("16/9" or "9/16"). The projector raises a blank screen.
+  and its aspect ratio ("16/9" or "9/16"). A photo message is an entry with `photo` (a file in
+  `assets/`) instead of `id`; it stays on the screen for fifteen seconds. The projector raises a blank screen.
   The gift box holds the films as a stack of numbered reels; the first click unfolds the box.
   Click a stack and the cat first carries the reel in the projector to the *other* stack, then
   threads the top reel of the stack you clicked; the film starts by itself after the countdown
