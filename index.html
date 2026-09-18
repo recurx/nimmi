@@ -293,6 +293,14 @@
       </g>
 
 
+      <!-- a small card lying on the grass, left of the projector: a sealed letter -->
+      <g class="card" id="card">
+        <polygon points="628,870 662,870 668,858 636,858" fill="#efe6cf" stroke="#c9bb95" stroke-width=".8"/>
+        <polygon points="636,858 668,858 653,864" fill="#e4d9bd"/>
+        <circle cx="651" cy="864.5" r="2.2" fill="#a83a3a"/>
+        <polygon class="card__hit" points="616,876 674,876 680,852 628,852" fill="transparent"/>
+      </g>
+
       <!-- the film projector -->
       <g class="projector" id="projector" transform="translate(704 863) scale(1.4) translate(-704 -863)">
         <circle class="projector__hit" cx="704" cy="846" r="26" fill="transparent"/>
@@ -344,12 +352,42 @@
     <p class="sky__sign">With love, your meow</p>
   </section>
 
-
+  <!-- the sealed letter (opened by the card left of the projector) -->
+  <div class="letter" id="letter" hidden>
+    <div class="letter__backdrop"></div>
+    <div class="letter__panel" role="dialog" aria-modal="true" aria-label="A letter">
+      <button class="letter__close" id="letterClose" type="button" aria-label="Close">&times;</button>
+      <div class="letter__stage" id="letterStage" data-step="envelope">
+        <button class="envelope" id="envelope" type="button">
+          <svg viewBox="0 0 320 210" aria-hidden="true">
+            <rect x="10" y="40" width="300" height="160" rx="6" fill="#efe6cf" stroke="#c9bb95" stroke-width="1.5"/>
+            <polygon points="10,200 160,105 310,200" fill="#e6dcc2"/>
+            <polygon points="10,40 160,150 310,40" fill="#e9dfc6" stroke="#c9bb95" stroke-width="1"/>
+            <g class="envelope__flap">
+              <polygon points="10,40 160,150 310,40" fill="#f3ebd6" stroke="#c9bb95" stroke-width="1.5"/>
+            </g>
+            <circle class="envelope__seal" cx="160" cy="148" r="17" fill="#a83a3a"/>
+            <path class="envelope__seal" d="M160 156 C147 147 149 137 156 137 C159 137 160 140 160 141 C160 140 161 137 164 137 C171 137 173 147 160 156 Z" fill="#f0c9c9" opacity=".8"/>
+          </svg>
+          <span class="envelope__note">Only open if you are Nirmala ;)</span>
+        </button>
+        <form class="seed" id="seedForm" autocomplete="off">
+          <label class="seed__label" for="seedInput">Whisper the seed word</label>
+          <input class="seed__input" id="seedInput" type="password" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button class="seed__go" type="submit">Open the letter</button>
+        </form>
+        <div class="paper">
+          <pre class="paper__text" id="paperText"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="js/sound.js"></script>
   <script src="js/scene.js"></script>
   <!-- Gumlet's player bridge, so the scene knows when a film ends -->
   <script src="https://cdn.jsdelivr.net/npm/@gumlet/player.js@3.0/dist/main.global.js"></script>
   <script src="js/cinema.js"></script>
+  <script src="js/letter.js"></script>
 </body>
 </html>

@@ -494,6 +494,7 @@
       const y = base + 6 + r() * r() * 130;
       if (x > 690 && x < 990 && y < base + 60) continue;
       if (x > 940 && x < 1045 && y < base + 80) continue;   // keep the reels' labels clear
+      if (x > 612 && x < 684 && y < base + 40) continue;    // and the card by the projector
       const s = 0.75 + (y - base) / 130 * 0.9;
       fd.appendChild(makeFlower(r, x, y, s, false));
       placed++;
@@ -503,6 +504,7 @@
       const x = r() * 1600;
       const base = crestY(crestD, x) + r() * 60;
       if (x > 720 && x < 1040 && base < crestY(crestD, x) + 24) continue;
+      if (x > 612 && x < 684 && base < crestY(crestD, x) + 20) continue;
       const h = 8 + r() * 16, lean = (r() - 0.5) * 8;
       gd.appendChild(el('path', { class: 'blade', style: `--dur:${(2.5 + r() * 2.5).toFixed(2)}s;--delay:${(-r() * 5).toFixed(2)}s`, d: `M${x} ${base} q${lean * 0.3} ${-h * 0.5} ${lean} ${-h}`, fill: 'none', stroke: '#0b1c16', 'stroke-width': 1.3, 'stroke-linecap': 'round' }));
     }

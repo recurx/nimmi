@@ -32,6 +32,11 @@ clicking the sky makes a wish.
   plays. Click the gift again and the cat first brings the reel back to the stack, then the
   camera zooms in on the full stack again. When a message ends the cat walks over and nudges
   the stack, asking for the next one.
+- `js/letter.js` – a sealed letter. The small card on the grass left of the projector opens a
+  closed envelope; tapping it asks for a seed word. The letter is stored only as ciphertext
+  (a keystream from SHA-256 of the typed seed, each character shifted within printable
+  ASCII), so the right seed reveals it and any other seed shows gibberish. The seed is not in
+  the code anywhere. To seal a new letter, encrypt it with the same scheme and replace `CIPHER`.
 
 ## Preview locally
 
