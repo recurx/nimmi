@@ -27,7 +27,7 @@
   const VIDEOS = [
     { id: '6aacac95490dbfc4f4b89815', ratio: '239/425', label: 'Mummy' },
     { id: '6aacac954b9588fb8c50f17b', ratio: '239/425', label: 'Papa' },
-    { photo: 'assets/photo-1.jpg', ratio: '3/4', label: 'Saloni' },
+    { id: '6aacc439a373d0cf89f5cf6a', ratio: '16/9', label: 'Saloni' },
     { id: '6aab7fe04b9588fb8c474e33', ratio: '9/16', label: 'Aditi' },
     { id: '6aacaa77a98a2e8c6c0f72a5', ratio: '9/16', label: 'Aditya' },
     { id: '6aacab2c490dbfc4f4b8910f', ratio: '239/425', label: 'Nidhi' },
@@ -35,6 +35,7 @@
     { id: '6aac4fdcef37684c946c6baa', ratio: '9/16', label: 'Shreya' },
     { id: '6aac7a344b9588fb8c4ffde3', ratio: '16/9', label: 'Advait, Supriya aunty\n& Bharatheeyan uncle' },
     { id: '6aacba6e4b9588fb8c5154ec', ratio: '16/9', label: 'Keru uncle' },
+    { id: '6aacc42d63818d09ef4a6634', ratio: '9/16', label: 'Devi aunty' },
     { id: '6aac7adcef37684c946d3c9c', ratio: '9/16', label: 'Sahana & Ganesh' },
     { id: '6aacab2c4b9588fb8c50ea08', ratio: '239/425', label: 'Mukul & Nidhi' },
   ];
